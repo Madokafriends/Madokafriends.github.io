@@ -1,16 +1,16 @@
 
 
-[![senli1073](https://img.shields.io/badge/senli1073-github-blue?logo=github)](https://github.com/senli1073)
+[![Madoka](https://img.shields.io/badge/senli1073-github-blue?logo=github)](https://github.com/Madokafriends)
 
-He is currently pursuing a Master's Degree in Computer Science, at School of Computer Science and Technology, China University of Mining and Technology, China.
+He is currently pursuing a Master's Degree in Physics, at South China Normal University, China.
 
 #### Email
-sli[at]cumt.edu.cn
+11813219[at]mail.sustech.edu.cn
 
 #### Education
-M.E., Computer Science and Technology, China University of Mining and Technology, 2022—2025 (expected).\
-B.E., Data Science and Big Data Technology, China University of Mining and Technology, 2018—2022.
+M.E., Physics, South China Academy of Advanced Optoelectronics, South China Normal University, 2023—2026 (expected).\
+B.E., Physics, Southern University of Science and Technology, 2018—2022.
 
 #### Research Interests
-Deep Learning, Artificial Intelligence Seismology, Mine Microseismic.
+MonteCarlo Simulation, Rate Equation, UpConversion Nanoparticle.
 
