@@ -1,6 +1,6 @@
 
 
-[![Madoka](https://img.shields.io/badge/senli1073-github-blue?logo=github)](https://github.com/Madokafriends)
+[![Madoka]](https://github.com/Madokafriends)
 
 He is currently pursuing a Master's Degree in Physics, at South China Normal University, China.
 

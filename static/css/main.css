@@ -14,13 +14,23 @@
     background-color: var(--h-title-color);
 }
 
-.top-section {
+/* 这是原本代码被注释了 */
+/* .top-section {
     position: relative;
     padding: 10rem 0;
     background-position: center;
     background-size: cover;
     height: 25rem;
-}
+} */
+
+.top-section {
+    position: relative;
+    height: 0;                /* 高度设为0，靠padding-bottom撑开 */
+    padding-bottom: 54.6%;     /* 根据新背景图片的比例确定 */
+    background-image: url('static/assets/img/background.jpg');
+    background-size: cover;   /* cover 会裁剪，但能保持充满容器 */
+    background-position: center;
+  }
 
 .top-section h2 {
     font-weight: 400;
@@ -98,10 +108,21 @@ section .main-body{
     z-index: 9000;
 }
 
+/*这段被注释了，修改成下面这段试试效果*/
+/*
 #avatar img {
     height: max(130px,min(200px,calc(100vw/6)));
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
+*/
+
+#avatar img {
+    width: auto;
+    height: auto;
+    max-height: 250px;  /* 根据布局需求设置合适的最大高度 */
+    object-fit: cover;  /* 若图片容器固定大小，可用 cover 保持比例裁剪 */
+  }
+  
 
 @media screen and (max-width: 991px) {
     #avatar {
