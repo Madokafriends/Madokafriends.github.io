@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="An interactive, spatial kinetic Monte Carlo study of excitation migration and optical feedback in a Yb³⁺–Pr³⁺ photon-avalanche model.">
+  <title>Yb³⁺–Pr³⁺ Photon Avalanche · Interactive KMC</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="data.js"></script>
+  <script defer src="model.js"></script>
+  <script defer src="ion-activity.js"></script>
+  <script defer src="graphics.js"></script>
+  <script defer src="diagnostics.js"></script>
+  <script defer src="diagnostic-ui.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+<div class="page">
+  <header>
+    <a class="brand" href="#top">Yb³⁺–Pr³⁺ Photon Avalanche</a>
+    <a class="github-link" href="https://github.com/Madokafriends" target="_blank" rel="noopener noreferrer" aria-label="View the author's public GitHub profile">GitHub ↗</a>
+  </header>
+  <main id="top">
+    <div class="intro">
+      <div><h1>Spatial kinetic Monte Carlo simulation on nanoparticles</h1>
+      </div>
+      <div class="model-stamp"><strong>852 nm</strong><span>Continuous-wave excitation</span><small>Two-level Yb³⁺ · Three-level effective Pr³⁺</small></div>
+    </div>
+    <section id="dynamics" aria-label="Interactive kinetic Monte Carlo simulation">
+      <div class="laboratory">
+        <div class="stage">
+          <div class="toolbar"><div class="segmented" aria-label="Visualization">
+            <button id="spatialView" aria-pressed="true">Active ions</button><button id="levelView" aria-pressed="false">Energy-transfer dynamics</button>
+          </div><div class="view-tools" id="spatialTools"><label><input id="showLinks" type="checkbox" checked> Transfer network</label><button id="homeView" class="quiet">Reset view ↺</button></div></div>
+          <div id="spatialPanel" class="spatial-panel" aria-labelledby="spatialView">
+          <div class="canvas-wrap"><canvas id="crystal" aria-label="Projected three-dimensional nanoparticle with Yb³⁺ and Pr³⁺ ions. Drag to rotate; select an ion to inspect it."></canvas>
+            <div class="canvas-tag"><span id="geometryTag">Hexagonal host · Spherical fragment</span></div>
+            <div class="view-help" id="viewHelp">Drag to rotate</div>
+          </div>
+          <div class="legend"><span><i class="dot ground"></i>Ground state</span><span><i class="dot yb"></i>Yb³⁺: ²F₅/₂</span><span><i class="dot pr1"></i>Pr³⁺: ¹G₄</span><span><i class="dot pr2"></i>Pr³⁺: ³P₀*</span><span class="legend-note">Larger sites: Pr³⁺</span></div>
+          <details class="appearance"><summary>Appearance</summary>
+            <div class="appearance-controls">
+              <label for="ionPalette">Palette<select id="ionPalette"><option value="mineral">Mineral</option><option value="contrast">High contrast</option><option value="classic">Original</option></select></label>
+              <label for="ionMaterial">Material<select id="ionMaterial"><option value="matte">Matte</option><option value="outline">Outline</option><option value="luminous">Luminous</option></select></label>
+            </div>
+          </details>
+          </div>
+    <section id="mechanism" class="mechanism" aria-labelledby="levelView" hidden>
+      <div class="mechanism-tabs segmented" aria-label="Energy-level diagram">
+        <button id="pathwaysView" aria-pressed="true" aria-controls="pathwaysPanel">Transfer pathways</button>
+        <button id="spectroscopyView" aria-pressed="false" aria-controls="spectroscopyPanel">Spectroscopic levels</button>
+      </div>
+      <div id="pathwaysPanel" class="guide-grid" aria-labelledby="pathwaysView">
+        <div class="guide-visual">
+          <canvas id="guide" aria-label="Representative Pr³⁺–Yb³⁺–Yb³⁺–Pr³⁺ feedback pathway with all retained process types and paired intra-ion transitions"></canvas>
+          <div class="guide-steps" aria-label="Highlight a process">
+            <button data-guide="0" aria-pressed="false">Overview</button>
+            <button data-guide="1" aria-pressed="false" title="Ground-state absorption">GSA</button>
+            <button data-guide="2" aria-pressed="false" title="Excited-state absorption">ESA</button>
+            <button data-guide="3" aria-pressed="true" title="Cross-relaxation">CR</button>
+            <button data-guide="4" aria-pressed="false" title="Yb³⁺–Yb³⁺ energy migration">Migration</button>
+            <button data-guide="5" aria-pressed="false" title="Yb³⁺-to-Pr³⁺ energy transfer">ET</button>
+            <button data-guide="6" aria-pressed="false">Radiative</button>
+            <button data-guide="7" aria-pressed="false" title="Multiphonon relaxation">MPR</button>
+            <button data-guide="8" aria-pressed="false" title="Optional channel; zero baseline rate">Upper → ¹G₄</button>
+          </div>
+          <p class="guide-notation">Pr³⁺: ³H₄ · ¹G₄ · ³P₀*<br>*Effective upper state; see Spectroscopic levels for the model reduction.</p>
+        </div>
+      </div>
+      <div id="spectroscopyPanel" class="spectroscopy-panel" aria-labelledby="spectroscopyView" hidden>
+        <div class="level-sheet" tabindex="0" role="region" aria-label="Spectroscopic manifolds and effective KMC states; scroll horizontally on a narrow screen">
+          <svg class="spectroscopic-diagram" viewBox="0 0 840 530" role="img" aria-labelledby="spectrumTitle spectrumDescription">
+            <title id="spectrumTitle">Yb³⁺ and Pr³⁺ spectroscopic manifolds and their effective kinetic representation</title>
+            <desc id="spectrumDescription">Yb³⁺ has two retained manifolds, ²F₇/₂ and ²F₅/₂. The selected Pr³⁺ spectrum includes ³H₄, ³H₅, ³H₆, ³F₂, ³F₃, ³F₄, ¹G₄, ¹D₂, ³P₀, ³P₁, ¹I₆ and ³P₂. The kinetic model propagates only ³H₄, ¹G₄ and an effective upper state labelled ³P₀*. Vertical positions are schematic, without a numerical energy scale or Stark splitting.</desc>
+            <defs><marker id="reductionArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 L6 4 L1 7" fill="none" stroke="currentColor" stroke-width="1.2"/></marker></defs>
+            <text class="spectrum-heading" x="55" y="27">Spectroscopic manifolds</text>
+            <text class="spectrum-heading" x="540" y="27">Effective KMC states</text>
+            <text class="spectrum-ion" x="112" y="65" text-anchor="middle">Yb³⁺</text>
+            <text class="spectrum-ion" x="272" y="65" text-anchor="middle">Pr³⁺</text>
+            <text class="spectrum-ion" x="580" y="65" text-anchor="middle">Yb³⁺</text>
+            <text class="spectrum-ion" x="740" y="65" text-anchor="middle">Pr³⁺</text>
+            <path class="spectrum-axis" d="M27 488 V100 M22 109 L27 100 L32 109"/>
+            <text class="spectrum-axis-label" transform="translate(17 338) rotate(-90)">Energy</text>
+            <g class="spectrum-level yb-level">
+              <path d="M76 287 H148"/><text x="159" y="293">²F₅/₂</text>
+              <path d="M76 488 H148"/><text x="159" y="494">²F₇/₂</text>
+            </g>
+            <rect class="upper-band" x="224" y="78" width="151" height="124" rx="5"/>
+            <g class="spectrum-level upper-level">
+              <path d="M236 94 H308"/><text x="319" y="100">³P₂</text>
+              <path d="M236 125 H308"/><text x="319" y="131">¹I₆</text>
+              <path d="M236 156 H308"/><text x="319" y="162">³P₁</text>
+              <path d="M236 187 H308"/><text x="319" y="193">³P₀</text>
+            </g>
+            <g class="spectrum-level omitted-level">
+              <path d="M236 235 H308"/><text x="319" y="241">¹D₂</text>
+            </g>
+            <g class="spectrum-level intermediate-level">
+              <path d="M236 303 H308"/><text x="319" y="309">¹G₄</text>
+            </g>
+            <g class="spectrum-level omitted-level">
+              <path d="M236 338 H308"/><text x="319" y="344">³F₄</text>
+              <path d="M236 365 H308"/><text x="319" y="371">³F₃</text>
+              <path d="M236 392 H308"/><text x="319" y="398">³F₂</text>
+              <path d="M236 420 H308"/><text x="319" y="426">³H₆</text>
+              <path d="M236 452 H308"/><text x="319" y="458">³H₅</text>
+            </g>
+            <g class="spectrum-level ground-level">
+              <path d="M236 488 H308"/><text x="319" y="494">³H₄</text>
+            </g>
+            <g class="reduction-link">
+              <path d="M398 272 H497" marker-end="url(#reductionArrow)"/>
+              <text x="448" y="250" text-anchor="middle">Kinetic</text>
+              <text x="448" y="307" text-anchor="middle">reduction</text>
+            </g>
+            <g class="spectrum-level yb-level">
+              <path d="M544 287 H616"/><text x="627" y="293">²F₅/₂</text>
+              <path d="M544 488 H616"/><text x="627" y="494">²F₇/₂</text>
+            </g>
+            <g class="spectrum-level upper-level">
+              <path d="M704 187 H776"/><text x="787" y="193">³P₀*</text>
+            </g>
+            <g class="spectrum-level intermediate-level">
+              <path d="M704 303 H776"/><text x="787" y="309">¹G₄</text>
+            </g>
+            <g class="spectrum-level ground-level">
+              <path d="M704 488 H776"/><text x="787" y="494">³H₄</text>
+            </g>
+            <text class="spectrum-small" x="112" y="520" text-anchor="middle">4f¹³</text>
+            <text class="spectrum-small" x="272" y="520" text-anchor="middle">4f² · selected manifolds</text>
+            <text class="spectrum-small" x="580" y="520" text-anchor="middle">Two states</text>
+            <text class="spectrum-small" x="740" y="520" text-anchor="middle">Three states</text>
+          </svg>
+        </div>
+        <div class="spectroscopy-notes">
+          <p><strong>From spectroscopic manifolds to kinetic states.</strong> The simulation retains two Yb³⁺ states and three Pr³⁺ states. ³P₀* denotes an effective upper state; other Pr³⁺ manifolds are not propagated separately.</p>
+          <p class="tiny">Level positions are schematic. Host-dependent energy shifts and Stark splitting are not resolved. <a href="https://doi.org/10.1039/D0PP00069H" target="_blank" rel="noopener noreferrer">Pr³⁺ spectroscopic reference ↗</a></p>
+        </div>
+      </div>
+    </section>
+          <div class="event-line"><span id="eventType">Ready for excitation</span><span id="eventTime">Gillespie waiting times</span></div>
+          <div class="metrics">
+            <div><span>Simulation time</span><strong id="physicalTime">0 s</strong><small id="timeSeconds">0 s · current segment</small></div>
+            <div><span>Excited Yb³⁺ · current</span><strong id="nYb">0</strong><small id="ybFraction">of — Yb³⁺ ions</small></div>
+            <div><span>Pr³⁺ upper · current</span><strong id="nPr">0</strong><small id="prFraction">¹G₄: 0 · total Pr³⁺: —</small></div>
+            <div><span>Emission events · cumulative</span><strong id="photons">0</strong><small>Current segment · ³P₀* → ³H₄</small></div>
+          </div>
+        </div>
+        <aside class="controls" aria-label="Simulation parameters">
+          <div class="control-heading"><h2>Simulation parameters</h2><span id="status">Paused</span></div>
+          <div class="control-block">
+            <label class="control-label" for="intensity">Excitation intensity <span>I / kW cm⁻²</span></label>
+            <div class="numeric"><input id="intensityNumber" type="number" min="0" max="500" step="0.01" value="100" aria-label="Excitation intensity in kilowatts per square centimetre"><button id="pumpOff" class="quiet">Pump off</button></div>
+            <input id="intensity" type="range" min="-0.3" max="2.699" step=".001" value="2"><div class="ruler"><span>0.5</span><span>10</span><span>500</span></div>
+          </div>
+          <div class="transport"><button class="primary" id="run">Run simulation ▷</button><button id="step">Single event</button></div>
+          <label class="compact-label" for="speed">Playback sampling</label>
+          <select id="speed"><option value="8">Inspect · 8 events / s</option><option value="12000" selected>Explore · 12,000 events / s</option><option value="150000">Accelerated · up to 150,000 events / s</option></select>
+          <p class="tiny">Playback sets the event budget; the simulation clock follows Δt = −ln(1 − u) / Σr.</p>
+          <details class="settings" id="kineticSettings"><summary>Kinetic parameters</summary>
+            <div class="knob"><label for="esa">Pr³⁺ ESA <output id="esaValue">1.00×</output></label><input id="esa" type="range" min=".25" max="2" step=".05" value="1"></div>
+            <div class="knob"><label for="gsa">Yb³⁺ GSA <output id="gsaValue">1.00×</output></label><input id="gsa" type="range" min="-1.30103" max="1.30103" step=".001" value="0"></div>
+            <div class="knob"><label for="feedback">Pr³⁺ → Yb³⁺ cross-relaxation (CR) <output id="feedbackValue">1.00×</output></label><input id="feedback" type="range" min="0" max="5" step=".05" value="1"></div>
+            <div class="knob"><label for="migration">Yb³⁺–Yb³⁺ migration <output id="migrationValue">1.00×</output></label><input id="migration" type="range" min="0" max="3" step=".05" value="1"></div>
+            <div class="knob"><label for="mpr">Pr³⁺ nonradiative loss <output id="mprValue">1.00×</output></label><input id="mpr" type="range" min="0" max="3" step=".05" value="1"></div>
+          </details>
+          <details class="settings"><summary>Geometry &amp; initial condition</summary>
+            <label for="parameterProfile">Geometry preset</label><select id="parameterProfile"><option value="thesis">Default</option><option value="table">Higher Pr³⁺ concentration</option><option value="archive">Extended interaction range</option><option value="custom">Custom geometry</option></select>
+            <p class="fixed-host">Host geometry · Hexagonal</p>
+            <div class="form-row"><label>a / Å<input id="latticeA" type="number" min="2.5" max="10" step=".5" value="5"></label><label>c / Å<input id="latticeC" type="number" min="1.5" max="10" step=".5" value="3.5"></label></div>
+            <label for="cutoff">Interaction cutoff / Å</label><input id="cutoff" type="number" min="2.5" max="10" step=".5" value="5">
+            <div class="form-row"><label>Radius / 5 Å<input id="radius" type="number" min="3" max="8" step=".5" value="6.5"></label><label>Random seed<input id="seed" type="number" min="0" max="999999" step="1" value="1234"></label></div>
+            <div class="form-row"><label>Yb³⁺ / %<input id="fractionYb" type="number" min="2" max="40" step="1" value="15"></label><label>Pr³⁺ / %<input id="fractionPr" type="number" min=".1" max="5" step=".1" value=".5"></label></div>
+            <button id="rebuild" class="wide">Rebuild nanoparticle</button>
+            <div class="reset-row"><button id="reset">Ground state ↺</button><button id="seedG4">One G₄ seed</button></div>
+            <p class="tiny">The interactive geometry is a solid spherical crop. No explicit shell or surface-quenching channels are included.</p>
+          </details>
+          <div class="inspection"><span class="eyebrow">Local environment</span><label class="ion-id" for="inspectIon">Ion ID<input id="inspectIon" type="number" min="0" step="1" value="0" aria-label="Inspect ion by ID"></label><p id="inspector">Select an ion to inspect its state and available neighbours.</p><p id="ionActivity" class="tiny">No transitions recorded in this measurement segment.</p></div>
+        </aside>
+      </div>
+      <p class="segment-note" id="segmentNote" aria-live="polite">All ions initially occupy their ground states. Parameter changes preserve the configuration and restart the measurement segment.</p>
+    </section>
+
+
+    <section id="trajectories" aria-label="KMC trajectories and excitation accounting">
+      <div class="trace-grid">
+        <figure><figcaption>Population dynamics<span>Fractions within each ion species</span></figcaption><canvas id="trace" aria-label="Live Yb³⁺ excited, Pr³⁺ intermediate and Pr³⁺ upper-state populations against physical time"></canvas><div class="inline-legend"><span class="yb-text">Yb³⁺ ²F₅/₂</span><span class="pr1-text">Pr³⁺ ¹G₄</span><span class="pr2-text">Pr³⁺ upper*</span></div></figure>
+        <figure><figcaption>Event statistics<span id="eventsTotal">0 events</span></figcaption><canvas id="events" aria-label="Observed counts for absorption, migration, transfer, emission and loss events"></canvas><p class="tiny">Counts in the current segment · logarithmic horizontal scale</p></figure>
+      </div>
+
+      <div class="balance-grid">
+        <figure><figcaption>Excitation multiplication<span>Actual KMC events</span></figcaption><canvas id="activity" class="large-chart" aria-label="Number of excited ions against physical time"></canvas><p class="tiny">Q = N(Yb³⁺ excited) + N(Pr³⁺ ¹G₄) + N(Pr³⁺ upper). The trace retains the latest 400 changes.</p></figure>
+      </div>
+    </section>
+    <section id="diagnostics" aria-label="Intensity-dependent avalanche diagnostics">
+      <div class="section-heading"><div><p class="eyebrow">Transient response</p><h2>Luminescence build-up</h2></div><p>A step in pump intensity establishes a new population. Its build-up time is a collective response, distinct from a single-ion radiative lifetime.</p></div>
+      <div class="diagnostic-controls">
+        <label for="riseFraction">Rise-time definition<select id="riseFraction"><option value="0.5">τ₅₀ · 50% of steady emission</option><option value="0.8" selected>τ₈₀ · 80% of steady emission</option><option value="0.95">τ₉₅ · 95% of steady emission</option></select></label>
+        <label for="scanMin">I minimum / kW cm⁻²<input id="scanMin" type="number" min="0.01" max="499" value="0.5" step="0.5"></label>
+        <label for="scanMax">I maximum / kW cm⁻²<input id="scanMax" type="number" min="0.02" max="500" value="500" step="1"></label>
+        <button id="runRiseScan">Scan intensity</button><button id="cancelRiseScan" hidden>Cancel</button>
+      </div>
+      <div class="diagnostic-grid">
+        <figure><figcaption>Turn-on transient<span id="transientIntensity">Selected simulation intensity</span></figcaption><canvas id="transientChart" class="large-chart" aria-label="Normalised turn-on emission with the selected CR multiplier and with that multiplier set to zero"></canvas><div class="inline-legend"><span class="pr2-text">Solid: selected CR multiplier</span><span class="muted">Dashed: CR multiplier = 0×</span></div></figure>
+        <figure><figcaption>Build-up time versus intensity</figcaption><canvas id="riseChart" class="large-chart" aria-label="Calculated build-up time versus pump intensity"></canvas><p class="tiny diagnostic-source">Simulated using homogeneous rate equations</p><p id="riseReadout" class="tiny" aria-live="polite">No threshold is assumed. A peak must emerge from the selected model and scan range.</p></figure>
+      </div>
+    </section>
+    <section id="response" class="recorded-response" aria-labelledby="archiveCaption">
+      <figure><figcaption id="archiveCaption">Recorded mean populations</figcaption><canvas id="archiveChart" class="large-chart" aria-label="Recorded Monte Carlo observables versus intensity, distinguishing convergence status"></canvas><div class="inline-legend"><span class="yb-text">Yb³⁺ excited</span><span class="pr1-text">Pr³⁺ ¹G₄</span><span class="pr2-text">Pr³⁺ ³P₀*</span></div></figure>
+    </section>
+  </main>
+  <footer>Selected photon-avalanche research. Full results and source code are not publicly available.</footer>
+</div>
+</body>
+</html>
