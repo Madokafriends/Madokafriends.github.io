@@ -1,4 +1,17 @@
+# Madoka's personal website
 
+[Visit the website](https://madokafriends.github.io/)
+
+## Interactive simulations
+
+- [Yb³⁺–Pr³⁺ Photon Avalanche](https://madokafriends.github.io/projects/photon-avalanche/): spatial kinetic Monte Carlo, energy-transfer diagrams and homogeneous rate-equation build-up calculations.
+- [Ising Model](https://madokafriends.github.io/MonteCarlo-simulation-for-2d-hexagonal-lattice/): Metropolis sampling on hexagonal Bravais and square lattices.
+
+The photon-avalanche directory contains only the browser demonstration and its required data, including one selected 30-point population scan. The full research repository, additional datasets and development history remain private. Computation runs in the visitor's browser; no backend or account is required.
+
+GitHub Pages publishes this repository's `main` branch from the repository root.
+
+## Original template documentation
 
 ![Github Forks](https://img.shields.io/github/forks/senli1073/senli1073.github.io?style=flat)
 ![Github Stars](https://img.shields.io/github/stars/senli1073/senli1073.github.io?style=flat)
